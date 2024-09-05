@@ -1,4 +1,19 @@
 body {
-    font-family: Arial, Helvetica, sans-serif
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 20%;
+    margin-right: 20%;
 }
-h1{ font-size: larger;}
+img{
+    width: 300px;
+}
+.itosu{
+    width: 250px;
+}
+.karate {
+    display: flex;
+    
+    flex-direction: row-reverse;
+}
+fieldset{
+    background-color: aqua;
+}
