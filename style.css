@@ -8,12 +8,12 @@ a {
     text-decoration: none;
 }
 
-header {
+.menu_lateral {
     position: sticky;
     padding: 10px;
     top: 0;
     background-color: rgb(21, 4, 98);
-    
+
 }
 
 nav {
@@ -48,6 +48,7 @@ main {
     padding: 100px;
     transition: margin-left 0.5s;
 }
+
 
 .btn-abrir {
     color: white;
