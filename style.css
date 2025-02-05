@@ -4,55 +4,17 @@ body {
     text-align: justify;
 }
 
+.list-group-item:hover {
+    background-color: rgb(59, 57, 57, 0.164)!important;
+
+}
 a {
     text-decoration: none;
 }
 
-.menu_lateral {
-    position: sticky;
-    padding: 10px;
-    top: 0;
-    background-color: rgb(21, 4, 98);
-
-}
-
-nav {
-    height: 100%;
-    width: 0px;
-    background-color: rgb(21, 4, 98);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    overflow: hidden;
-    transition: width 0.3s;
-}
-
-nav a {
-    color: white;
-    font-size: 20px;
-    display: block;
-    padding: 12px 10px 12px 32px;
-}
-
-nav a.sub {
-    font-size: 15px;
-}
-
-nav a:hover {
-    color: rgb(21, 4, 98);
-    background-color: white;
-}
-
 main {
     padding: 100px;
-    transition: margin-left 0.5s;
-}
-
-
-.btn-abrir {
-    color: white;
-    font-size: 25px;
+    margin-top: -3%;
 }
 
 h1 {
@@ -96,7 +58,7 @@ img {
 }
 
 fieldset {
-    background-color: rgb(21, 4, 98);
+    background-color: aqua;
 }
 
 figcaption {

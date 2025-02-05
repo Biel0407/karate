@@ -7,42 +7,140 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Caminho das mãos vazias</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
 </head>
+<style>
+    .modal {
+        width: 300px;
+    }
+
+    .modal-content {
+        width: 300px;
+    }
+
+    .list-group-item:hover {
+        background-color: rgb(59, 57, 57, 0.164) !important;
+    }
+
+    nav {
+        display: inline-block;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0px;
+        text-align: justify;
+    }
+
+    .list-group-item:hover {
+        background-color: rgb(59, 57, 57, 0.164) !important;
+
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    main {
+        padding: 100px;
+        margin-top: -3%;
+    }
+
+    h1 {
+        text-align: center;
+        color: white;
+    }
+
+    h2 {
+        font-size: xx-large;
+    }
+
+    h3 {
+        font-style: italic;
+    }
+
+    .margin {
+        margin-bottom: 10%;
+    }
+
+    img {
+        width: 300px;
+    }
+
+    .tigre {
+        width: 200px;
+    }
+
+    .itosu {
+        width: 200px;
+    }
+
+    .karate {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+    }
+
+    .karate1 {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+
+  
+
+    figcaption {
+        font-size: small;
+        text-align: justify;
+    }
+
+    .curiosidade {
+        background-color: aquamarine;
+        border-bottom: 10%;
+    }
+</style>
 
 <body>
-    <p class="inicio"><a name="inicio"></a></p>
-    <header class="menu_lateral">
-        <a href="#" class="btn-abrir" onclick="abrir_menu()">&#9776; Abrir</a>
-    </header>
-    <nav id="menu">
-        <a href="#" onclick="fechar_menu()"><i class="bi bi-x-circle"></i> Fechar</a>
-        <a href="#"><i class="bi bi-house-door-fill"></i> Início</a>
-        <a href="#origem">1. Origem do karatê</a>
-        <a href="#Ginchin Funakoshi" class="sub">a. Ginchin Funakoshi</a>
-        <a href="#tigre shotokan" class="sub">b. A origem do tigre shotokan</a>
-        <a href="#karate no brasil">2. O karatê no Brasil</a>
-        <a href="#saber2" class="sub">a. Para saber mais</a>
-        <a href="#karate rn">3. O karatê no RN</a>
-        <a href="#saber3" class="sub">a. Para saber mais</a>
-        <a href="#estilos">4. Os Estilos de karatê</a>
-        <a href="#primeiro_estilo" class="sub">a. Qual o primeiro estilo criado?</a>
-        <a href="#saber4" class="sub">b. Para saber mais</a>
-        <a href="#etica">5. A ética e a filosofia</a>
-        <a href="#dojokun" class="sub">a. Dojo kun</a>
-        <a href="#tode_jukun" class="sub"> b. Tode jukun</a>
-        <a href="#niju_kun" class="sub">c. Niju kun</a>
-        <a href="#saber5" class="sub">d. Para saber mais</a>
-        <a href="#pilares karate">6. Os três pilares do karatê</a>
-        <a href="#kata">a. Kata</a>
+    <nav class="navbar navbar-dark bg-dark shadow">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">Caminho das mãos vazias</span>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
     </nav>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">MENU</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"> <a href="#"><i class="bi bi-house-door-fill"></i> Início</a></li>
+                        <li class="list-group-item"><a href="#origem">1. Origem do karatê</a></li>
+                        <li class="list-group-item"><a href="#karate no brasil">2. O karatê no Brasil</a></li>
+                        <li class="list-group-item"><a href="#karate rn">3. O karatê no RN</a></li>
+                        <li class="list-group-item"><a href="#etica">5. A ética e a filosofia</a></li>
+                        <li class="list-group-item"><a href="#pilares karate">6. Os três pilares do karatê</a></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
     <main id="conteudo">
         <header>
-            <h1>
-                <fieldset>CAMINHO DAS MÃOS VAZIAS</fieldset>
-            </h1>
-
             <p>
                 Olá! Seja bem-vindo ao site
                 <strong><u>Caminho das mãos vazias</u></strong>. Nesse site você irá ver os seguintes tópicos:
@@ -246,12 +344,12 @@
                     <li>
                         <a href="https://askadoi.com.br/eisuke-oishi-e-denilson-caribe/">Eisuke Oishi</a>
                     </li>
-                    <br />
+
                 </ul>
                 <li>Goju-ryu</li>
                 <ul>
                     <li>Seiichi (Shikan) Akamine</li>
-                    <br />
+
                 </ul>
                 <li>Wadoryu</li>
                 <ul>
@@ -262,14 +360,14 @@
                     <li>
                         <a href="https://www.grandesmestresmarciais.com.br/biografia/Mich">Michizo Buyo</a>
                     </li>
-                    <br />
+
                 </ul>
                 <li>Shorin-Ryu</li>
                 <ul>
                     <li>
                         <a href="https://pt.wikipedia.org/wiki/Yoshihide_Shinzato">Yoshihide Shinzato</a>
                     </li>
-                    <br />
+
                 </ul>
                 <li>Kenyuryu</li>
                 <ul>
