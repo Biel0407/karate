@@ -1,4 +1,3 @@
-
 /* ==========================================
    RESET
 ========================================== */
@@ -144,6 +143,7 @@ section p {
 section img {
     border-radius: 12px;
 }
+
 /* ==========================================
    FIGURAS E LEGENDAS
 ========================================== */
@@ -159,6 +159,7 @@ figcaption {
     color: #6c757d;
     font-style: italic;
 }
+
 /* ==========================================
    ESTILOS DO KARATÊ
 ========================================== */
@@ -166,7 +167,7 @@ figcaption {
    CARDS DOS ESTILOS
 ========================================== */
 
-.estilo-card{
+.estilo-card {
 
     border: none;
     border-radius: 18px;
@@ -174,26 +175,26 @@ figcaption {
     transition: .35s;
 }
 
-.estilo-card:hover img{
+.estilo-card:hover img {
 
     transform: scale(1.05);
 
 }
 
-.estilo-card .card-header{
+.estilo-card .card-header {
 
     padding: 18px;
     border: none;
 }
 
-.estilo-card .card-header h4{
+.estilo-card .card-header h4 {
 
     margin: 0;
     font-weight: 700;
     letter-spacing: 1px;
 }
 
-.estilo-card .card-header small{
+.estilo-card .card-header small {
 
     font-size: .9rem;
 }
@@ -209,22 +210,426 @@ figcaption {
 }
 
 
-.estilo-card .card-body{
+.estilo-card .card-body {
 
     padding: 25px;
 }
 
-.estilo-card h6{
+.estilo-card h6 {
 
     font-weight: bold;
     margin-bottom: 15px;
 }
 
-.estilo-card p{
+.estilo-card p {
 
     text-align: justify;
     margin-bottom: 0;
 }
+
 .estilo-card img.chojun-img {
     object-position: center 25%;
+}
+
+/* ==========================================
+   FILOSOFIA
+========================================== */
+
+.filosofia-card {
+    border: none;
+    transition: 0.3s;
+}
+
+.filosofia-card:hover {
+    transform: translateY(-8px);
+}
+
+.filosofia-card h4 {
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.filosofia-card p {
+    text-align: justify;
+}
+
+/* ==========================================
+   DOJO KUN
+========================================== */
+
+.alert-light {
+    background-color: #ffffff;
+    border-radius: 12px;
+}
+
+.alert-light h3 {
+    font-weight: bold;
+}
+
+.list-group-item {
+    border: none;
+    border-bottom: 1px solid #ececec;
+    background: transparent;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+/* ==========================================
+   KARATÊ NA ATUALIDADE
+========================================== */
+
+.atualidade-card {
+    border: none;
+    transition: .3s;
+}
+
+.atualidade-card:hover {
+    transform: translateY(-8px);
+}
+
+.atualidade-card h4 {
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.atualidade-card p {
+    text-align: justify;
+}
+
+/* ==========================================
+   REFERÊNCIAS
+========================================== */
+
+#referencias .card {
+    border: none;
+    transition: .3s;
+}
+
+#referencias .card:hover {
+    transform: translateY(-5px);
+}
+
+#referencias ul {
+    padding-left: 20px;
+}
+
+/* ==========================================
+   RODAPÉ
+========================================== */
+
+.footer {
+
+    background: #1c1c1c;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 60px 20px;
+
+}
+
+.footer h3 {
+
+    font-weight: bold;
+
+    margin-bottom: 20px;
+
+}
+
+.footer-descricao {
+
+    max-width: 700px;
+
+    margin: auto;
+
+    color: #d9d9d9;
+
+}
+
+.footer hr {
+
+    width: 80px;
+
+    height: 3px;
+
+    background: #dc3545;
+
+    border: none;
+
+    margin: 30px auto;
+
+    opacity: 1;
+
+}
+
+.footer-frase {
+
+    font-style: italic;
+
+    font-size: 1.15rem;
+
+    max-width: 800px;
+
+    margin: auto;
+
+    color: #f1f1f1;
+
+}
+
+.footer p {
+
+    color: #cccccc;
+
+    margin-bottom: 10px;
+
+}
+
+.footer .btn {
+
+    border-radius: 30px;
+
+    padding: 10px 24px;
+
+    transition: .3s;
+
+}
+
+.footer .btn:hover {
+
+    transform: translateY(-3px);
+
+}
+
+/* ==========================================
+   QUIZ
+========================================== */
+
+.quiz-container {
+
+    max-width: 850px;
+
+    margin: auto;
+
+    background: white;
+
+    border-radius: 15px;
+
+    padding: 40px;
+
+}
+
+#pergunta {
+
+    font-weight: bold;
+
+    text-align: center;
+
+}
+
+.resposta {
+
+    display: block;
+
+    width: 100%;
+
+    margin-bottom: 15px;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #f2f2f2;
+
+    transition: .35s;
+
+    cursor: pointer;
+
+    font-size: 18px;
+
+}
+
+.resposta:hover {
+
+    transform: scale(1.02);
+
+    background: #dc3545;
+
+    color: white;
+
+}
+
+#proxima {
+
+    display: none;
+
+}
+
+.correta {
+
+    background: #198754 !important;
+
+    color: white !important;
+
+}
+
+.errada {
+
+    background: #dc3545 !important;
+
+    color: white !important;
+
+}
+
+.desativada {
+
+    pointer-events: none;
+
+}
+
+.quiz-container {
+
+    animation: fade .5s;
+
+}
+
+@keyframes fade {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(15px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+.progress-bar {
+
+    transition: width .6s;
+
+}
+
+#feedback {
+
+    min-height: 40px;
+
+    transition: .3s;
+
+}
+
+.correta-texto {
+
+    color: #198754;
+
+}
+
+.errada-texto {
+
+    color: #dc3545;
+
+}
+
+.quiz-container {
+
+    transition: .5s;
+
+}
+
+.resposta {
+
+    transition: .25s;
+
+}
+
+.resposta:hover {
+
+    transform: translateY(-3px);
+
+}
+
+.btn-danger {
+
+    transition: .3s;
+
+}
+
+.btn-danger:hover {
+
+    transform: scale(1.05);
+
+}
+
+/* ===========================
+        FEEDBACK
+=========================== */
+
+.estrela {
+
+    cursor: pointer;
+
+    color: #bfbfbf;
+
+    transition: .3s;
+
+}
+
+.estrela:hover {
+
+    color: #ffc107;
+
+    transform: scale(1.2);
+
+}
+
+.estrela.ativa {
+
+    color: #ffc107;
+
+}
+
+.feedback-card {
+
+    border-left: 5px solid #dc3545;
+
+    margin-bottom: 20px;
+
+    padding: 20px;
+
+    background: #fff;
+
+    border-radius: 10px;
+
+    box-shadow: 0 0 15px rgba(0, 0, 0, .08);
+
+}
+/*==============================
+      MENSAGEM DE SUCESSO
+==============================*/
+
+#mensagemFeedback{
+
+    opacity:0;
+
+    transition:.6s;
+
+}
+
+#mensagemFeedback.mostrar{
+
+    opacity:1;
+
 }
