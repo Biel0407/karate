@@ -1,310 +1,388 @@
-// ==============================
-// PERGUNTAS DO QUIZ
-// ==============================
+import { useEffect, useState } from "react";
+import { collection, query, orderBy, getDocs, limit } from "firebase/firestore";
+import { db } from "../firebase";
 
-const perguntas = [
-    {
-        pergunta: "Onde surgiu o Karatê?",
-        respostas: ["Japão", "China", "Okinawa", "Coreia"],
-        correta: 2
-    },
-    {
-        pergunta: "O significado da palavra Karatê é:",
-        respostas: [
-            "Punhos de ferro",
-            "Espírito guerreiro",
-            "Mãos vazias",
-            "Caminho do samurai"
-        ],
-        correta: 2
-    },
-    {
-        pergunta: "Quem é considerado o pai do Karatê moderno?",
-        respostas: [
-            "Kenwa Mabuni",
-            "Gichin Funakoshi",
-            "Chojun Miyagi",
-            "Hironori Otsuka"
-        ],
-        correta: 1
-    },
-    {
-        pergunta: "Qual destes NÃO era um dos estilos originais do Te?",
-        respostas: [
-            "Shuri-te",
-            "Naha-te",
-            "Tomari-te",
-            "Shotokan"
-        ],
-        correta: 3
-    },
-    {
-        pergunta: "Qual é o estilo de Karatê mais praticado no mundo?",
-        respostas: [
-            "Goju-Ryu",
-            "Shotokan",
-            "Shito-Ryu",
-            "Wado-Ryu"
-        ],
-        correta: 1
-    },
-    {
-        pergunta: "Quais são os três pilares do Karatê?",
-        respostas: [
-            "Defesa, Kata e Kumite",
-            "Kata, Judô e Kihon",
-            "Kihon, Kata e Kumite",
-            "Kata, Boxe e Kumite"
-        ],
-        correta: 2
-    },
-    {
-        pergunta: "Quem implantou o Karatê no Rio Grande do Norte?",
-        respostas: [
-            "Franklin Fernandes Ramos",
-            "Juarez Alves Gomes",
-            "Sensei Humberto",
-            "Sensei Telvane"
-        ],
-        correta: 1
-    },
-    {
-        pergunta: "Quem foi o primeiro faixa-preta formado no Rio Grande do Norte?",
-        respostas: [
-            "Juarez Alves Gomes",
-            "Franklin Fernandes Ramos",
-            "Sensei Humberto",
-            "Sensei Akamine"
-        ],
-        correta: 1
-    },
-    {
-        pergunta: "O que significa UKIRN?",
-        respostas: [
-            "União de Karatê Internacional",
-            "União de Karatê Interestadual",
-            "União de Karatê Interestilos do Rio Grande do Norte",
-            "União de Karatê do Nordeste"
-        ],
-        correta: 2
-    },
-    {
-        pergunta: "Em quais Jogos Olímpicos o Karatê estreou como modalidade olímpica?",
-        respostas: [
-            "Londres 2012",
-            "Rio 2016",
-            "Paris 2024",
-            "Tóquio 2020"
-        ],
-        correta: 3
+function Feedbacks() {
+    const [feedbacks, setFeedbacks] = useState([]);
+    const [mostrarTodos, setMostrarTodos] = useState(false);
+
+    async function carregarFeedbacks() {
+        let qRef;
+
+        if (mostrarTodos) {
+            qRef = query(
+                collection(db, "feedbacks"),
+                orderBy("createdAt", "desc")
+            );
+        } else {
+            qRef = query(
+                collection(db, "feedbacks"),
+                orderBy("createdAt", "desc"),
+                limit(5)
+            );
+        }
+
+        const snapshot = await getDocs(qRef);
+
+        const dados = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+
+        setFeedbacks(dados);
     }
-];
 
-// ==============================
-// VARIÁVEIS
-// ==============================
+    useEffect(() => {
+        carregarFeedbacks();
+    }, [mostrarTodos]);
 
-let indice = 0;
-let pontos = 0;
+    return (
+        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+            <h2>Feedbacks</h2>
 
-const pergunta = document.getElementById("pergunta");
-const respostas = document.getElementById("respostas");
-const proxima = document.getElementById("proxima");
-const contador = document.getElementById("contador");
-const pontuacao = document.getElementById("pontuacao");
-const barra = document.getElementById("barra");
-const feedback = document.getElementById("feedback");
+            {/* LISTA DE FEEDBACKS */}
+            {feedbacks.length === 0 ? (
+                <p>Nenhum comentário ainda.</p>
+            ) : (
+                feedbacks.map(item => (
+                    <div
+                        key={item.id}
+                        style={{
+                            border: "1px solid #ddd",
+                            padding: "10px",
+                            marginBottom: "10px",
+                            borderRadius: "8px"
+                        }}
+                    >
+                        <p><strong>{item.nome || "Anônimo"}</strong></p>
+                        <p>{item.mensagem}</p>
+                    </div>
+                ))
+            )}
 
-// ==============================
-// CARREGA PERGUNTA
-// ==============================
-
-function carregarPergunta() {
-
-    proxima.style.display = "none";
-    proxima.disabled = false;
-
-    contador.textContent = `Pergunta ${indice + 1} de ${perguntas.length}`;
-
-    pontuacao.textContent = `Pontos: ${pontos}`;
-
-    barra.style.width = `${(indice / perguntas.length) * 100}%`;
-
-    pergunta.textContent = perguntas[indice].pergunta;
-
-    respostas.innerHTML = "";
-
-    perguntas[indice].respostas.forEach((texto, i) => {
-
-        const botao = document.createElement("button");
-
-        botao.className = "resposta";
-
-        botao.textContent = texto;
-
-        botao.onclick = () => selecionarResposta(botao, i);
-
-        respostas.appendChild(botao);
-
-    });
-
+            {/* BOTÃO VER MAIS / MENOS */}
+            <button
+                onClick={() => setMostrarTodos(!mostrarTodos)}
+                style={{
+                    marginTop: "15px",
+                    padding: "8px 12px",
+                    cursor: "pointer"
+                }}
+            >
+                {mostrarTodos ? "Mostrar menos" : "Ver todos os comentários"}
+            </button>
+        </div>
+    );
 }
 
-// ==============================
-// SELECIONA RESPOSTA
-// ==============================
+export default Feedbacks;
+    // ==============================
+    // PERGUNTAS DO QUIZ
+    // ==============================
 
-function selecionarResposta(botao, indiceResposta) {
+    const perguntas = [
+        {
+            pergunta: "Onde surgiu o Karatê?",
+            respostas: ["Japão", "China", "Okinawa", "Coreia"],
+            correta: 2
+        },
+        {
+            pergunta: "O significado da palavra Karatê é:",
+            respostas: [
+                "Punhos de ferro",
+                "Espírito guerreiro",
+                "Mãos vazias",
+                "Caminho do samurai"
+            ],
+            correta: 2
+        },
+        {
+            pergunta: "Quem é considerado o pai do Karatê moderno?",
+            respostas: [
+                "Kenwa Mabuni",
+                "Gichin Funakoshi",
+                "Chojun Miyagi",
+                "Hironori Otsuka"
+            ],
+            correta: 1
+        },
+        {
+            pergunta: "Qual destes NÃO era um dos estilos originais do Te?",
+            respostas: [
+                "Shuri-te",
+                "Naha-te",
+                "Tomari-te",
+                "Shotokan"
+            ],
+            correta: 3
+        },
+        {
+            pergunta: "Qual é o estilo de Karatê mais praticado no mundo?",
+            respostas: [
+                "Goju-Ryu",
+                "Shotokan",
+                "Shito-Ryu",
+                "Wado-Ryu"
+            ],
+            correta: 1
+        },
+        {
+            pergunta: "Quais são os três pilares do Karatê?",
+            respostas: [
+                "Defesa, Kata e Kumite",
+                "Kata, Judô e Kihon",
+                "Kihon, Kata e Kumite",
+                "Kata, Boxe e Kumite"
+            ],
+            correta: 2
+        },
+        {
+            pergunta: "Quem implantou o Karatê no Rio Grande do Norte?",
+            respostas: [
+                "Franklin Fernandes Ramos",
+                "Juarez Alves Gomes",
+                "Sensei Humberto",
+                "Sensei Telvane"
+            ],
+            correta: 1
+        },
+        {
+            pergunta: "Quem foi o primeiro faixa-preta formado no Rio Grande do Norte?",
+            respostas: [
+                "Juarez Alves Gomes",
+                "Franklin Fernandes Ramos",
+                "Sensei Humberto",
+                "Sensei Akamine"
+            ],
+            correta: 1
+        },
+        {
+            pergunta: "O que significa UKIRN?",
+            respostas: [
+                "União de Karatê Internacional",
+                "União de Karatê Interestadual",
+                "União de Karatê Interestilos do Rio Grande do Norte",
+                "União de Karatê do Nordeste"
+            ],
+            correta: 2
+        },
+        {
+            pergunta: "Em quais Jogos Olímpicos o Karatê estreou como modalidade olímpica?",
+            respostas: [
+                "Londres 2012",
+                "Rio 2016",
+                "Paris 2024",
+                "Tóquio 2020"
+            ],
+            correta: 3
+        }
+    ];
 
-    const botoes = document.querySelectorAll(".resposta");
+    // ==============================
+    // VARIÁVEIS
+    // ==============================
 
-    botoes.forEach(btn => {
+    let indice = 0;
+    let pontos = 0;
 
-        btn.classList.add("desativada");
+    const pergunta = document.getElementById("pergunta");
+    const respostas = document.getElementById("respostas");
+    const proxima = document.getElementById("proxima");
+    const contador = document.getElementById("contador");
+    const pontuacao = document.getElementById("pontuacao");
+    const barra = document.getElementById("barra");
+    const feedback = document.getElementById("feedback");
 
-    });
+    // ==============================
+    // CARREGA PERGUNTA
+    // ==============================
 
-    if (indiceResposta === perguntas[indice].correta) {
+    function carregarPergunta() {
 
-        botao.classList.add("correta");
+        proxima.style.display = "none";
+        proxima.disabled = false;
 
-        pontos++;
+        contador.textContent = `Pergunta ${indice + 1} de ${perguntas.length}`;
 
         pontuacao.textContent = `Pontos: ${pontos}`;
 
-        feedback.innerHTML = "✔ Resposta Correta!";
+        barra.style.width = `${(indice / perguntas.length) * 100}%`;
 
-        feedback.className = "text-center fw-bold fs-4 correta-texto";
+        pergunta.textContent = perguntas[indice].pergunta;
 
-    }
+        respostas.innerHTML = "";
 
-    else {
+        perguntas[indice].respostas.forEach((texto, i) => {
 
-        botao.classList.add("errada");
+            const botao = document.createElement("button");
 
-        botoes[perguntas[indice].correta].classList.add("correta");
+            botao.className = "resposta";
 
-        feedback.innerHTML = "❌ Resposta Incorreta!";
+            botao.textContent = texto;
 
-        feedback.className = "text-center fw-bold fs-4 errada-texto";
+            botao.onclick = () => selecionarResposta(botao, i);
 
-    }
+            respostas.appendChild(botao);
 
-    setTimeout(() => {
-
-        feedback.innerHTML = "";
-
-        proxima.style.display = "inline-block";
-
-    }, 1000);
-
-}
-
-// ==============================
-// BOTÃO PRÓXIMA
-// ==============================
-
-proxima.addEventListener("click", () => {
-
-    proxima.disabled = true;
-
-    indice++;
-
-    if (indice < perguntas.length) {
-
-        carregarPergunta();
-
-    } else {
-
-        barra.style.width = "100%";
-
-        mostrarResultado();
+        });
 
     }
 
-});
+    // ==============================
+    // SELECIONA RESPOSTA
+    // ==============================
 
-// ==============================
-// RESULTADO FINAL
-// ==============================
+    function selecionarResposta(botao, indiceResposta) {
 
-function mostrarResultado() {
+        const botoes = document.querySelectorAll(".resposta");
 
-    let medalha = "";
-    let mensagem = "";
+        botoes.forEach(btn => {
 
-    if (pontos === 10) {
+            btn.classList.add("desativada");
 
-        medalha = "🥇";
+        });
 
-        mensagem = "Fantástico! Você demonstrou excelente conhecimento sobre a história e a filosofia do Karatê-Do.";
+        if (indiceResposta === perguntas[indice].correta) {
 
-    } else if (pontos >= 8) {
+            botao.classList.add("correta");
 
-        medalha = "🥈";
+            pontos++;
 
-        mensagem = "Excelente desempenho! Você conhece muito bem o Karatê.";
+            pontuacao.textContent = `Pontos: ${pontos}`;
 
-    } else if (pontos >= 6) {
+            feedback.innerHTML = "✔ Resposta Correta!";
 
-        medalha = "🥉";
+            feedback.className = "text-center fw-bold fs-4 correta-texto";
 
-        mensagem = "Muito bom! Continue treinando e estudando para evoluir ainda mais.";
+        }
 
-    } else if (pontos >= 4) {
+        else {
 
-        medalha = "👏";
+            botao.classList.add("errada");
 
-        mensagem = "Bom trabalho! Revise alguns conteúdos do site e tente novamente.";
+            botoes[perguntas[indice].correta].classList.add("correta");
 
-    } else {
+            feedback.innerHTML = "❌ Resposta Incorreta!";
 
-        medalha = "💪";
+            feedback.className = "text-center fw-bold fs-4 errada-texto";
 
-        mensagem = "Todo mestre já foi um iniciante. Continue estudando e volte para tentar novamente!";
+        }
 
-    }
+        setTimeout(() => {
 
-    const porcentagem = Math.round((pontos / perguntas.length) * 100);
-    let faixa = "";
-    let corFaixa = "";
+            feedback.innerHTML = "";
 
-    if (pontos <= 2) {
+            proxima.style.display = "inline-block";
 
-        faixa = "⚪ Faixa Branca";
-        corFaixa = "#6c757d";
+        }, 1000);
 
     }
 
-    else if (pontos <= 5) {
+    // ==============================
+    // BOTÃO PRÓXIMA
+    // ==============================
 
-        faixa = "🟨 Faixa Amarela";
-        corFaixa = "#d4a017";
+    proxima.addEventListener("click", () => {
 
-    }
+        proxima.disabled = true;
 
-    else if (pontos <= 7) {
+        indice++;
 
-        faixa = "🟩 Faixa Verde";
-        corFaixa = "#198754";
+        if (indice < perguntas.length) {
 
-    }
+            carregarPergunta();
 
-    else if (pontos <= 9) {
+        } else {
 
-        faixa = "🟫 Faixa Marrom";
-        corFaixa = "#8B4513";
+            barra.style.width = "100%";
 
-    }
+            mostrarResultado();
 
-    else {
+        }
 
-        faixa = "⬛ Faixa Preta";
-        corFaixa = "#000";
+    });
 
-    }
+    // ==============================
+    // RESULTADO FINAL
+    // ==============================
 
-    document.querySelector(".quiz-container").innerHTML = `
+    function mostrarResultado() {
+
+        let medalha = "";
+        let mensagem = "";
+
+        if (pontos === 10) {
+
+            medalha = "🥇";
+
+            mensagem = "Fantástico! Você demonstrou excelente conhecimento sobre a história e a filosofia do Karatê-Do.";
+
+        } else if (pontos >= 8) {
+
+            medalha = "🥈";
+
+            mensagem = "Excelente desempenho! Você conhece muito bem o Karatê.";
+
+        } else if (pontos >= 6) {
+
+            medalha = "🥉";
+
+            mensagem = "Muito bom! Continue treinando e estudando para evoluir ainda mais.";
+
+        } else if (pontos >= 4) {
+
+            medalha = "👏";
+
+            mensagem = "Bom trabalho! Revise alguns conteúdos do site e tente novamente.";
+
+        } else {
+
+            medalha = "💪";
+
+            mensagem = "Todo mestre já foi um iniciante. Continue estudando e volte para tentar novamente!";
+
+        }
+
+        const porcentagem = Math.round((pontos / perguntas.length) * 100);
+        let faixa = "";
+        let corFaixa = "";
+
+        if (pontos <= 2) {
+
+            faixa = "⚪ Faixa Branca";
+            corFaixa = "#6c757d";
+
+        }
+
+        else if (pontos <= 5) {
+
+            faixa = "🟨 Faixa Amarela";
+            corFaixa = "#d4a017";
+
+        }
+
+        else if (pontos <= 7) {
+
+            faixa = "🟩 Faixa Verde";
+            corFaixa = "#198754";
+
+        }
+
+        else if (pontos <= 9) {
+
+            faixa = "🟫 Faixa Marrom";
+            corFaixa = "#8B4513";
+
+        }
+
+        else {
+
+            faixa = "⬛ Faixa Preta";
+            corFaixa = "#000";
+
+        }
+
+        document.querySelector(".quiz-container").innerHTML = `
 
 <div class="text-center">
 
@@ -355,44 +433,100 @@ function mostrarResultado() {
 </div>
 
 `;
-    if (pontos === 10) {
+        if (pontos === 10) {
 
-        confetti({
+            confetti({
 
-            particleCount: 300,
+                particleCount: 300,
 
-            spread: 180,
+                spread: 180,
 
-            origin: {
+                origin: {
 
-                y: 0.6
+                    y: 0.6
+
+                }
+
+            });
+
+        }
+
+    }
+
+    // ==============================
+    // INICIA O QUIZ
+    // ==============================
+
+    carregarPergunta();
+    // ======================
+    // FEEDBACK
+    // ======================
+
+    let notaSelecionada = 0;
+
+    const estrelas = document.querySelectorAll(".estrela");
+
+    estrelas.forEach(estrela => {
+
+        estrela.addEventListener("click", () => {
+
+            notaSelecionada = estrela.dataset.nota;
+
+            estrelas.forEach(e => {
+
+                e.classList.remove("bi-star-fill", "ativa");
+
+                e.classList.add("bi-star");
+
+            });
+
+            for (let i = 0; i < notaSelecionada; i++) {
+
+                estrelas[i].classList.remove("bi-star");
+
+                estrelas[i].classList.add("bi-star-fill", "ativa");
 
             }
 
         });
 
-    }
+    });
 
-}
+    function salvarFeedback() {
 
-// ==============================
-// INICIA O QUIZ
-// ==============================
+        const nome = document.getElementById("nomeFeedback").value.trim();
 
-carregarPergunta();
-// ======================
-// FEEDBACK
-// ======================
+        const comentario = document.getElementById("comentarioFeedback").value.trim();
 
-let notaSelecionada = 0;
+        if (nome === "" || comentario === "" || notaSelecionada == 0) {
 
-const estrelas = document.querySelectorAll(".estrela");
+            alert("Preencha todos os campos.");
 
-estrelas.forEach(estrela => {
+            return;
 
-    estrela.addEventListener("click", () => {
+        }
 
-        notaSelecionada = estrela.dataset.nota;
+        const feedback = {
+
+            nome,
+
+            comentario,
+
+            nota: notaSelecionada
+
+        };
+
+        const lista = JSON.parse(localStorage.getItem("feedbacks")) || [];
+
+        lista.push(feedback);
+
+        localStorage.setItem("feedbacks", JSON.stringify(lista));
+
+        document.getElementById("nomeFeedback").value = "";
+
+        document.getElementById("comentarioFeedback").value = "";
+
+        notaSelecionada = 0;
 
         estrelas.forEach(e => {
 
@@ -402,109 +536,53 @@ estrelas.forEach(estrela => {
 
         });
 
-        for (let i = 0; i < notaSelecionada; i++) {
+        carregarFeedbacks();
 
-            estrelas[i].classList.remove("bi-star");
+        const mensagem = document.getElementById("mensagemFeedback");
 
-            estrelas[i].classList.add("bi-star-fill", "ativa");
-
-        }
-
-    });
-
-});
-
-function salvarFeedback() {
-
-    const nome = document.getElementById("nomeFeedback").value.trim();
-
-    const comentario = document.getElementById("comentarioFeedback").value.trim();
-
-    if (nome === "" || comentario === "" || notaSelecionada == 0) {
-
-        alert("Preencha todos os campos.");
-
-        return;
-
-    }
-
-    const feedback = {
-
-        nome,
-
-        comentario,
-
-        nota: notaSelecionada
-
-    };
-
-    const lista = JSON.parse(localStorage.getItem("feedbacks")) || [];
-
-    lista.push(feedback);
-
-    localStorage.setItem("feedbacks", JSON.stringify(lista));
-
-    document.getElementById("nomeFeedback").value = "";
-
-    document.getElementById("comentarioFeedback").value = "";
-
-    notaSelecionada = 0;
-
-    estrelas.forEach(e => {
-
-        e.classList.remove("bi-star-fill", "ativa");
-
-        e.classList.add("bi-star");
-
-    });
-
-    carregarFeedbacks();
-
-    const mensagem = document.getElementById("mensagemFeedback");
-
-    mensagem.classList.remove("d-none");
-
-    setTimeout(() => {
-
-        mensagem.classList.add("mostrar");
-
-    }, 10);
-
-    setTimeout(() => {
-
-        mensagem.classList.remove("mostrar");
+        mensagem.classList.remove("d-none");
 
         setTimeout(() => {
 
-            mensagem.classList.add("d-none");
+            mensagem.classList.add("mostrar");
 
-        }, 600);
+        }, 10);
 
-    }, 3500);
+        setTimeout(() => {
 
-    document.getElementById("nomeFeedback").focus();
+            mensagem.classList.remove("mostrar");
 
-}
+            setTimeout(() => {
 
-function carregarFeedbacks() {
+                mensagem.classList.add("d-none");
 
-    const listaFeedbacks = document.getElementById("listaFeedbacks");
+            }, 600);
 
-    listaFeedbacks.innerHTML = "";
+        }, 3500);
 
-    const lista = JSON.parse(localStorage.getItem("feedbacks")) || [];
+        document.getElementById("nomeFeedback").focus();
 
-    lista.reverse().forEach(item => {
+    }
 
-        let estrelas = "";
+    function carregarFeedbacks() {
 
-        for (let i = 0; i < item.nota; i++) {
+        const listaFeedbacks = document.getElementById("listaFeedbacks");
 
-            estrelas += "⭐";
+        listaFeedbacks.innerHTML = "";
 
-        }
+        const lista = JSON.parse(localStorage.getItem("feedbacks")) || [];
 
-        listaFeedbacks.innerHTML += `
+        lista.reverse().forEach(item => {
+
+            let estrelas = "";
+
+            for (let i = 0; i < item.nota; i++) {
+
+                estrelas += "⭐";
+
+            }
+
+            listaFeedbacks.innerHTML += `
 
             <div class="feedback-card">
 
@@ -518,8 +596,8 @@ function carregarFeedbacks() {
 
         `;
 
-    });
+        });
 
-}
+    }
 
-carregarFeedbacks();
+    carregarFeedbacks();
