@@ -1,187 +1,109 @@
-import { useEffect, useState } from "react";
-import { collection, query, orderBy, getDocs, limit } from "firebase/firestore";
-import { db } from "../firebase";
+// ==============================
+// PERGUNTAS DO QUIZ
+// ==============================
 
-function Feedbacks() {
-    const [feedbacks, setFeedbacks] = useState([]);
-    const [mostrarTodos, setMostrarTodos] = useState(false);
-
-    async function carregarFeedbacks() {
-        let qRef;
-
-        if (mostrarTodos) {
-            qRef = query(
-                collection(db, "feedbacks"),
-                orderBy("createdAt", "desc")
-            );
-        } else {
-            qRef = query(
-                collection(db, "feedbacks"),
-                orderBy("createdAt", "desc"),
-                limit(5)
-            );
-        }
-
-        const snapshot = await getDocs(qRef);
-
-        const dados = snapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-        }));
-
-        setFeedbacks(dados);
+const perguntas = [
+    {
+        pergunta: "Onde surgiu o Karatê?",
+        respostas: ["Japão", "China", "Okinawa", "Coreia"],
+        correta: 2
+    },
+    {
+        pergunta: "O significado da palavra Karatê é:",
+        respostas: [
+            "Punhos de ferro",
+            "Espírito guerreiro",
+            "Mãos vazias",
+            "Caminho do samurai"
+        ],
+        correta: 2
+    },
+    {
+        pergunta: "Quem é considerado o pai do Karatê moderno?",
+        respostas: [
+            "Kenwa Mabuni",
+            "Gichin Funakoshi",
+            "Chojun Miyagi",
+            "Hironori Otsuka"
+        ],
+        correta: 1
+    },
+    {
+        pergunta: "Qual destes NÃO era um dos estilos originais do Te?",
+        respostas: [
+            "Shuri-te",
+            "Naha-te",
+            "Tomari-te",
+            "Shotokan"
+        ],
+        correta: 3
+    },
+    {
+        pergunta: "Qual é o estilo de Karatê mais praticado no mundo?",
+        respostas: [
+            "Goju-Ryu",
+            "Shotokan",
+            "Shito-Ryu",
+            "Wado-Ryu"
+        ],
+        correta: 1
+    },
+    {
+        pergunta: "Quais são os três pilares do Karatê?",
+        respostas: [
+            "Defesa, Kata e Kumite",
+            "Kata, Judô e Kihon",
+            "Kihon, Kata e Kumite",
+            "Kata, Boxe e Kumite"
+        ],
+        correta: 2
+    },
+    {
+        pergunta: "Quem implantou o Karatê no Rio Grande do Norte?",
+        respostas: [
+            "Franklin Fernandes Ramos",
+            "Juarez Alves Gomes",
+            "Sensei Humberto",
+            "Sensei Telvane"
+        ],
+        correta: 1
+    },
+    {
+        pergunta: "Quem foi o primeiro faixa-preta formado no Rio Grande do Norte?",
+        respostas: [
+            "Juarez Alves Gomes",
+            "Franklin Fernandes Ramos",
+            "Sensei Humberto",
+            "Sensei Akamine"
+        ],
+        correta: 1
+    },
+    {
+        pergunta: "O que significa UKIRN?",
+        respostas: [
+            "União de Karatê Internacional",
+            "União de Karatê Interestadual",
+            "União de Karatê Interestilos do Rio Grande do Norte",
+            "União de Karatê do Nordeste"
+        ],
+        correta: 2
+    },
+    {
+        pergunta: "Em quais Jogos Olímpicos o Karatê estreou como modalidade olímpica?",
+        respostas: [
+            "Londres 2012",
+            "Rio 2016",
+            "Paris 2024",
+            "Tóquio 2020"
+        ],
+        correta: 3
     }
+];
 
-    useEffect(() => {
-        carregarFeedbacks();
-    }, [mostrarTodos]);
-
-    return (
-        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-            <h2>Feedbacks</h2>
-
-            {/* LISTA DE FEEDBACKS */}
-            {feedbacks.length === 0 ? (
-                <p>Nenhum comentário ainda.</p>
-            ) : (
-                feedbacks.map(item => (
-                    <div
-                        key={item.id}
-                        style={{
-                            border: "1px solid #ddd",
-                            padding: "10px",
-                            marginBottom: "10px",
-                            borderRadius: "8px"
-                        }}
-                    >
-                        <p><strong>{item.nome || "Anônimo"}</strong></p>
-                        <p>{item.mensagem}</p>
-                    </div>
-                ))
-            )}
-
-            {/* BOTÃO VER MAIS / MENOS */}
-            <button
-                onClick={() => setMostrarTodos(!mostrarTodos)}
-                style={{
-                    marginTop: "15px",
-                    padding: "8px 12px",
-                    cursor: "pointer"
-                }}
-            >
-                {mostrarTodos ? "Mostrar menos" : "Ver todos os comentários"}
-            </button>
-        </div>
-    );
-}
-
-export default Feedbacks;
-    // ==============================
-    // PERGUNTAS DO QUIZ
-    // ==============================
-
-    const perguntas = [
-        {
-            pergunta: "Onde surgiu o Karatê?",
-            respostas: ["Japão", "China", "Okinawa", "Coreia"],
-            correta: 2
-        },
-        {
-            pergunta: "O significado da palavra Karatê é:",
-            respostas: [
-                "Punhos de ferro",
-                "Espírito guerreiro",
-                "Mãos vazias",
-                "Caminho do samurai"
-            ],
-            correta: 2
-        },
-        {
-            pergunta: "Quem é considerado o pai do Karatê moderno?",
-            respostas: [
-                "Kenwa Mabuni",
-                "Gichin Funakoshi",
-                "Chojun Miyagi",
-                "Hironori Otsuka"
-            ],
-            correta: 1
-        },
-        {
-            pergunta: "Qual destes NÃO era um dos estilos originais do Te?",
-            respostas: [
-                "Shuri-te",
-                "Naha-te",
-                "Tomari-te",
-                "Shotokan"
-            ],
-            correta: 3
-        },
-        {
-            pergunta: "Qual é o estilo de Karatê mais praticado no mundo?",
-            respostas: [
-                "Goju-Ryu",
-                "Shotokan",
-                "Shito-Ryu",
-                "Wado-Ryu"
-            ],
-            correta: 1
-        },
-        {
-            pergunta: "Quais são os três pilares do Karatê?",
-            respostas: [
-                "Defesa, Kata e Kumite",
-                "Kata, Judô e Kihon",
-                "Kihon, Kata e Kumite",
-                "Kata, Boxe e Kumite"
-            ],
-            correta: 2
-        },
-        {
-            pergunta: "Quem implantou o Karatê no Rio Grande do Norte?",
-            respostas: [
-                "Franklin Fernandes Ramos",
-                "Juarez Alves Gomes",
-                "Sensei Humberto",
-                "Sensei Telvane"
-            ],
-            correta: 1
-        },
-        {
-            pergunta: "Quem foi o primeiro faixa-preta formado no Rio Grande do Norte?",
-            respostas: [
-                "Juarez Alves Gomes",
-                "Franklin Fernandes Ramos",
-                "Sensei Humberto",
-                "Sensei Akamine"
-            ],
-            correta: 1
-        },
-        {
-            pergunta: "O que significa UKIRN?",
-            respostas: [
-                "União de Karatê Internacional",
-                "União de Karatê Interestadual",
-                "União de Karatê Interestilos do Rio Grande do Norte",
-                "União de Karatê do Nordeste"
-            ],
-            correta: 2
-        },
-        {
-            pergunta: "Em quais Jogos Olímpicos o Karatê estreou como modalidade olímpica?",
-            respostas: [
-                "Londres 2012",
-                "Rio 2016",
-                "Paris 2024",
-                "Tóquio 2020"
-            ],
-            correta: 3
-        }
-    ];
-
-    // ==============================
-    // VARIÁVEIS
-    // ==============================
-
+// ==============================
+// VARIÁVEIS
+// ==============================
+document.addEventListener("DOMContentLoaded", () => {
     let indice = 0;
     let pontos = 0;
 
@@ -466,31 +388,24 @@ export default Feedbacks;
 
     const estrelas = document.querySelectorAll(".estrela");
 
-    estrelas.forEach(estrela => {
+    if (estrelas.length > 0) {
+        estrelas.forEach(estrela => {
+            estrela.addEventListener("click", () => {
 
-        estrela.addEventListener("click", () => {
+                notaSelecionada = estrela.dataset.nota;
 
-            notaSelecionada = estrela.dataset.nota;
+                estrelas.forEach(e => {
+                    e.classList.remove("bi-star-fill", "ativa");
+                    e.classList.add("bi-star");
+                });
 
-            estrelas.forEach(e => {
-
-                e.classList.remove("bi-star-fill", "ativa");
-
-                e.classList.add("bi-star");
-
+                for (let i = 0; i < notaSelecionada; i++) {
+                    estrelas[i].classList.remove("bi-star");
+                    estrelas[i].classList.add("bi-star-fill", "ativa");
+                }
             });
-
-            for (let i = 0; i < notaSelecionada; i++) {
-
-                estrelas[i].classList.remove("bi-star");
-
-                estrelas[i].classList.add("bi-star-fill", "ativa");
-
-            }
-
         });
-
-    });
+    }
 
     function salvarFeedback() {
 
@@ -601,3 +516,4 @@ export default Feedbacks;
     }
 
     carregarFeedbacks();
+});
