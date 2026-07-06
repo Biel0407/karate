@@ -105,7 +105,7 @@ const perguntas = [
 // ==============================
 document.addEventListener("DOMContentLoaded", () => {
     let indice = 0;
-    let pontos = 0;
+    let respostasUsuario = new Array(perguntas.length).fill(null);
 
     const pergunta = document.getElementById("pergunta");
     const respostas = document.getElementById("respostas");
@@ -121,12 +121,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function carregarPergunta() {
 
-        proxima.style.display = "none";
-        proxima.disabled = false;
+        const respostaSalva = respostasUsuario[indice];
+
+        proxima.style.display = "inline-block";
 
         contador.textContent = `Pergunta ${indice + 1} de ${perguntas.length}`;
-
-        pontuacao.textContent = `Pontos: ${pontos}`;
 
         barra.style.width = `${(indice / perguntas.length) * 100}%`;
 
@@ -137,58 +136,48 @@ document.addEventListener("DOMContentLoaded", () => {
         perguntas[indice].respostas.forEach((texto, i) => {
 
             const botao = document.createElement("button");
-
             botao.className = "resposta";
-
             botao.textContent = texto;
 
             botao.onclick = () => selecionarResposta(botao, i);
 
+            if (respostaSalva !== null) {
+                botao.classList.add("desativada");
+
+                if (i === respostaSalva) {
+                    botao.classList.add("correta");
+                }
+            }
+
             respostas.appendChild(botao);
-
         });
-
     }
-
     // ==============================
     // SELECIONA RESPOSTA
     // ==============================
 
     function selecionarResposta(botao, indiceResposta) {
 
+        const correta = perguntas[indice].correta;
+
+        feedback.innerHTML = indiceResposta === correta
+            ? "✔ Resposta Correta!"
+            : "❌ Resposta Incorreta!";
+
+        respostasUsuario[indice] = indiceResposta;
+
         const botoes = document.querySelectorAll(".resposta");
 
-        botoes.forEach(btn => {
+        botoes.forEach(btn => btn.classList.add("desativada"));
 
-            btn.classList.add("desativada");
-
-        });
-
-        if (indiceResposta === perguntas[indice].correta) {
-
+        if (indiceResposta === correta) {
             botao.classList.add("correta");
-
-            pontos++;
-
-            pontuacao.textContent = `Pontos: ${pontos}`;
-
-            feedback.innerHTML = "✔ Resposta Correta!";
-
-            feedback.className = "text-center fw-bold fs-4 correta-texto";
-
-        }
-
-        else {
-
+        } else {
             botao.classList.add("errada");
-
-            botoes[perguntas[indice].correta].classList.add("correta");
-
-            feedback.innerHTML = "❌ Resposta Incorreta!";
-
-            feedback.className = "text-center fw-bold fs-4 errada-texto";
-
+            botoes[correta].classList.add("correta");
         }
+
+
 
         setTimeout(() => {
 
@@ -199,36 +188,35 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1000);
 
     }
-
-    // ==============================
-    // BOTÃO PRÓXIMA
-    // ==============================
-
-    proxima.addEventListener("click", () => {
-
-        proxima.disabled = true;
-
-        indice++;
-
-        if (indice < perguntas.length) {
-
+    document.getElementById("voltar").addEventListener("click", () => {
+        if (indice > 0) {
+            indice--;
             carregarPergunta();
+        }
+    });
+    document.getElementById("proxima").addEventListener("click", () => {
 
+        if (indice < perguntas.length - 1) {
+            indice++;
+            carregarPergunta();
         } else {
-
-            barra.style.width = "100%";
-
-            mostrarResultado();
-
+            finalizarQuiz();
         }
 
     });
 
     // ==============================
+    // BOTÃO PRÓXIMA
+    // ==============================
+
+
+
+
+    // ==============================
     // RESULTADO FINAL
     // ==============================
 
-    function mostrarResultado() {
+    function mostrarResultado(pontos) {
 
         let medalha = "";
         let mensagem = "";
@@ -514,6 +502,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
     }
+    function finalizarQuiz() {
 
+        let pontos = 0;
+
+        respostasUsuario.forEach((resposta, i) => {
+            if (resposta === perguntas[i].correta) {
+                pontos++;
+            }
+        });
+
+        mostrarResultado(pontos);
+    }
     carregarFeedbacks();
 });
