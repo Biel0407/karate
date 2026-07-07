@@ -111,7 +111,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const respostas = document.getElementById("respostas");
     const proxima = document.getElementById("proxima");
     const contador = document.getElementById("contador");
-    const pontuacao = document.getElementById("pontuacao");
     const barra = document.getElementById("barra");
     const feedback = document.getElementById("feedback");
 
@@ -127,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         contador.textContent = `Pergunta ${indice + 1} de ${perguntas.length}`;
 
-        barra.style.width = `${(indice / perguntas.length) * 100}%`;
+        barra.style.width = `${((indice + 1) / perguntas.length) * 100}%`;
 
         pergunta.textContent = perguntas[indice].pergunta;
 
@@ -169,6 +168,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const botoes = document.querySelectorAll(".resposta");
 
         botoes.forEach(btn => btn.classList.add("desativada"));
+        botoes.forEach(btn => {
+            btn.disabled = true;
+        });
 
         if (indiceResposta === correta) {
             botao.classList.add("correta");
@@ -194,6 +196,10 @@ document.addEventListener("DOMContentLoaded", () => {
             carregarPergunta();
         }
     });
+    // ==============================
+    // BOTÃO PRÓXIMA
+    // ==============================
+
     document.getElementById("proxima").addEventListener("click", () => {
 
         if (indice < perguntas.length - 1) {
@@ -206,10 +212,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ==============================
-    // BOTÃO PRÓXIMA
+    // FINALIZA O QUIZ
     // ==============================
 
+    function finalizarQuiz() {
 
+        let pontos = 0;
+
+        respostasUsuario.forEach((resposta, i) => {
+
+            if (resposta === perguntas[i].correta) {
+                pontos++;
+            }
+
+        });
+
+        mostrarResultado(pontos);
+
+    }
 
 
     // ==============================
@@ -368,151 +388,5 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==============================
 
     carregarPergunta();
-    // ======================
-    // FEEDBACK
-    // ======================
 
-    let notaSelecionada = 0;
-
-    const estrelas = document.querySelectorAll(".estrela");
-
-    if (estrelas.length > 0) {
-        estrelas.forEach(estrela => {
-            estrela.addEventListener("click", () => {
-
-                notaSelecionada = estrela.dataset.nota;
-
-                estrelas.forEach(e => {
-                    e.classList.remove("bi-star-fill", "ativa");
-                    e.classList.add("bi-star");
-                });
-
-                for (let i = 0; i < notaSelecionada; i++) {
-                    estrelas[i].classList.remove("bi-star");
-                    estrelas[i].classList.add("bi-star-fill", "ativa");
-                }
-            });
-        });
-    }
-
-    function salvarFeedback() {
-
-        const nome = document.getElementById("nomeFeedback").value.trim();
-
-        const comentario = document.getElementById("comentarioFeedback").value.trim();
-
-        if (nome === "" || comentario === "" || notaSelecionada == 0) {
-
-            alert("Preencha todos os campos.");
-
-            return;
-
-        }
-
-        const feedback = {
-
-            nome,
-
-            comentario,
-
-            nota: notaSelecionada
-
-        };
-
-        const lista = JSON.parse(localStorage.getItem("feedbacks")) || [];
-
-        lista.push(feedback);
-
-        localStorage.setItem("feedbacks", JSON.stringify(lista));
-
-        document.getElementById("nomeFeedback").value = "";
-
-        document.getElementById("comentarioFeedback").value = "";
-
-        notaSelecionada = 0;
-
-        estrelas.forEach(e => {
-
-            e.classList.remove("bi-star-fill", "ativa");
-
-            e.classList.add("bi-star");
-
-        });
-
-        carregarFeedbacks();
-
-        const mensagem = document.getElementById("mensagemFeedback");
-
-        mensagem.classList.remove("d-none");
-
-        setTimeout(() => {
-
-            mensagem.classList.add("mostrar");
-
-        }, 10);
-
-        setTimeout(() => {
-
-            mensagem.classList.remove("mostrar");
-
-            setTimeout(() => {
-
-                mensagem.classList.add("d-none");
-
-            }, 600);
-
-        }, 3500);
-
-        document.getElementById("nomeFeedback").focus();
-
-    }
-
-    function carregarFeedbacks() {
-
-        const listaFeedbacks = document.getElementById("listaFeedbacks");
-
-        listaFeedbacks.innerHTML = "";
-
-        const lista = JSON.parse(localStorage.getItem("feedbacks")) || [];
-
-        lista.reverse().forEach(item => {
-
-            let estrelas = "";
-
-            for (let i = 0; i < item.nota; i++) {
-
-                estrelas += "⭐";
-
-            }
-
-            listaFeedbacks.innerHTML += `
-
-            <div class="feedback-card">
-
-                <h5>${item.nome}</h5>
-
-                <p>${estrelas}</p>
-
-                <p>${item.comentario}</p>
-
-            </div>
-
-        `;
-
-        });
-
-    }
-    function finalizarQuiz() {
-
-        let pontos = 0;
-
-        respostasUsuario.forEach((resposta, i) => {
-            if (resposta === perguntas[i].correta) {
-                pontos++;
-            }
-        });
-
-        mostrarResultado(pontos);
-    }
-    carregarFeedbacks();
 });

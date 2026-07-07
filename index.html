@@ -1611,84 +1611,145 @@
             </section>
             <section id="feedback" class="container py-5">
 
-                <h2 class="text-center mb-4">
-                    💬 Deixe seu Feedback
+                <h2 class="text-center mb-3">
+                    💬 Avaliações dos Visitantes
                 </h2>
 
-                <p class="text-center mb-5">
-                    Sua opinião é muito importante para o desenvolvimento deste projeto.
-                    Conte o que você achou do site e dê uma nota para a experiência.
+                <p class="text-center text-muted mb-5">
+                    Sua opinião é muito importante! Deixe uma avaliação sobre o site e ajude outras pessoas.
                 </p>
 
-                <div class="card shadow border-0 p-4">
+                <!-- ESTATÍSTICAS -->
 
-                    <div class="mb-3">
+                <div class="row justify-content-center mb-5">
 
-                        <label class="form-label fw-bold">
-                            Nome
-                        </label>
+                    <div class="col-lg-6">
 
-                        <input type="text" id="nomeFeedback" class="form-control" placeholder="Digite seu nome">
+                        <div class="card shadow-sm border-0">
 
-                    </div>
+                            <div class="card-body text-center">
 
-                    <div class="mb-3">
+                                <h1 id="mediaNota" class="display-3 fw-bold text-danger">
+                                    0.0
+                                </h1>
 
-                        <label class="form-label fw-bold">
+                                <div id="estrelasMedia" class="fs-3 mb-2">
+                                    ☆☆☆☆☆
+                                </div>
 
-                            Avaliação
+                                <p class="text-muted mb-0">
+                                    Baseado em
+                                    <strong id="totalAvaliacoes">
+                                        0
+                                    </strong>
+                                    avaliações
+                                </p>
 
-                        </label>
-
-                        <div id="estrelas" class="fs-2">
-
-                            <i class="bi bi-star estrela" data-nota="1"></i>
-                            <i class="bi bi-star estrela" data-nota="2"></i>
-                            <i class="bi bi-star estrela" data-nota="3"></i>
-                            <i class="bi bi-star estrela" data-nota="4"></i>
-                            <i class="bi bi-star estrela" data-nota="5"></i>
+                            </div>
 
                         </div>
 
                     </div>
 
-                    <div class="mb-4">
+                </div>
 
-                        <label class="form-label fw-bold">
+                <!-- FORMULÁRIO -->
 
-                            Comentário
+                <div class="row justify-content-center">
 
-                        </label>
+                    <div class="col-lg-8">
 
-                        <textarea id="comentarioFeedback" rows="4" class="form-control"
-                            placeholder="Escreva aqui sua opinião..."></textarea>
+                        <div class="card shadow">
 
-                    </div>
+                            <div class="card-body">
 
-                    <button class="btn btn-danger" onclick="salvarFeedback()">
+                                <h4 class="mb-4">
+                                    ✍️ Deixe sua avaliação
+                                </h4>
 
-                        Enviar Feedback
+                                <div class="mb-3">
 
-                    </button>
-                    <div id="mensagemFeedback" class="alert alert-success mt-4 d-none">
+                                    <label class="form-label">
+                                        Nome
+                                    </label>
 
-                        🥋 <strong>OSS!</strong> Seu feedback foi enviado com sucesso.
-                        Muito obrigado por contribuir para o desenvolvimento do
-                        <strong>Caminho das Mãos Vazias.</strong>
+                                    <input id="nomeFeedback" class="form-control" maxlength="40"
+                                        placeholder="Digite seu nome">
+
+                                </div>
+
+                                <div class="mb-3">
+
+                                    <label class="form-label">
+                                        Sua nota
+                                    </label>
+
+                                    <div id="estrelas" class="estrelas">
+
+                                        <span data-nota="1">☆</span>
+                                        <span data-nota="2">☆</span>
+                                        <span data-nota="3">☆</span>
+                                        <span data-nota="4">☆</span>
+                                        <span data-nota="5">☆</span>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="mb-3">
+
+                                    <label class="form-label">
+                                        Comentário
+                                    </label>
+
+                                    <textarea id="comentarioFeedback" class="form-control" rows="4" maxlength="500"
+                                        placeholder="Conte o que você achou do site..."></textarea>
+
+                                </div>
+
+                                <div class="d-grid">
+
+                                    <button id="btnEnviarFeedback" class="btn btn-danger btn-lg">
+
+                                        Enviar avaliação
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
                 </div>
 
-                <div class="mt-5">
+                <!-- COMENTÁRIOS -->
 
-                    <h3 class="mb-4">
+                <div class="row justify-content-center mt-5">
 
-                        O que os visitantes disseram
+                    <div class="col-lg-8">
 
-                    </h3>
+                        <h4 class="mb-4">
 
-                    <div id="listaFeedbacks">
+                            Comentários recentes
+
+                        </h4>
+
+                        <div id="listaFeedbacks">
+
+                        </div>
+
+                        <div class="text-center mt-4">
+
+                            <button id="btnVerMais" class="btn btn-outline-danger">
+
+                                Ver mais comentários
+
+                            </button>
+
+                        </div>
 
                     </div>
 
@@ -1893,6 +1954,8 @@
 
     <script src="script.js"></script>
     <script src="quiz.js"></script>
-    <script src="feedback.js"></script>
+
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="feedback.js"></script>
 
 </body>

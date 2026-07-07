@@ -574,62 +574,207 @@ figcaption {
 }
 
 /* ===========================
-        FEEDBACK
+   FEEDBACK
 =========================== */
 
-.estrela {
+#feedback{
+    background:#f8f9fa;
+}
 
-    cursor: pointer;
+#feedback .card{
+    border:none;
+    border-radius:18px;
+}
 
-    color: #bfbfbf;
+#feedback h2{
+    font-weight:700;
+}
 
-    transition: .3s;
+#feedback textarea{
+    resize:none;
+}
+
+.estrelas{
+    display:flex;
+    gap:8px;
+    font-size:35px;
+    cursor:pointer;
+    user-select:none;
+}
+
+.estrelas span{
+    transition:.2s;
+    color:#bdbdbd;
+}
+
+.estrelas span:hover{
+    transform:scale(1.15);
+}
+
+.estrelas .ativa{
+    color:#ffc107;
+}
+
+#btnEnviarFeedback{
+    transition:.25s;
+}
+
+#btnEnviarFeedback:hover{
+    transform:translateY(-2px);
+}
+/* ===========================
+   COMENTÁRIOS
+=========================== */
+
+.feedback-card{
+
+    display:flex;
+
+    gap:18px;
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    margin-bottom:20px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+    transition:.25s;
 
 }
 
-.estrela:hover {
+.feedback-card:hover{
 
-    color: #ffc107;
-
-    transform: scale(1.2);
+    transform:translateY(-3px);
 
 }
 
-.estrela.ativa {
+.avatar{
 
-    color: #ffc107;
+    width:60px;
 
-}
+    height:60px;
 
-.feedback-card {
+    border-radius:50%;
 
-    border-left: 5px solid #dc3545;
+    display:flex;
 
-    margin-bottom: 20px;
+    justify-content:center;
 
-    padding: 20px;
+    align-items:center;
 
-    background: #fff;
+    color:white;
 
-    border-radius: 10px;
+    font-size:24px;
 
-    box-shadow: 0 0 15px rgba(0, 0, 0, .08);
+    font-weight:bold;
 
-}
-/*==============================
-      MENSAGEM DE SUCESSO
-==============================*/
-
-#mensagemFeedback{
-
-    opacity:0;
-
-    transition:.6s;
+    flex-shrink:0;
 
 }
 
-#mensagemFeedback.mostrar{
+.feedback-info{
 
-    opacity:1;
+    flex:1;
+
+}
+
+.feedback-topo{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+}
+
+.feedback-nome{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+}
+
+.feedback-estrelas{
+
+    color:#ffc107;
+
+    font-size:18px;
+
+}
+
+.feedback-data{
+
+    color:#777;
+
+    font-size:14px;
+
+    margin-top:2px;
+
+}
+
+.feedback-texto{
+
+    margin-top:12px;
+
+    line-height:1.6;
+
+}
+#btnVerMais{
+
+    border-radius:30px;
+
+    padding:10px 30px;
+
+    transition:.3s;
+
+}
+
+#btnVerMais:hover{
+
+    transform:translateY(-2px);
+
+}
+@keyframes aparecer{
+
+    from{
+
+        opacity:0;
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}
+
+.feedback-card{
+
+    animation:aparecer .4s ease;
+
+}
+#btnVerMais{
+
+    min-width:230px;
+
+    font-weight:600;
+
+}
+
+#btnVerMais i{
+
+    transition:.3s;
 
 }
