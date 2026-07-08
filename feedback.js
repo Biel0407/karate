@@ -1,3 +1,15 @@
+import { db } from "./firebase.js";
+
+import {
+    collection,
+    addDoc,
+    serverTimestamp,
+    query,
+    orderBy,
+    onSnapshot,
+    getDocs,
+    limit
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 // ==============================
 // VARIÁVEIS
 // ==============================
@@ -226,51 +238,89 @@ function exibirFeedbacks() {
     }
 
 }
-// ==============================
-// DADOS DE EXEMPLO
-// ==============================
+async function carregarFeedbacks() {
 
-todosFeedbacks = [
+    const q = query(
+        collection(db, "feedbacks"),
+        orderBy("createdAt", "desc")
+    );
 
-    {
+    onSnapshot(q, (snapshot) => {
 
-        nome: "João Gabriel",
+        todosFeedbacks = [];
 
-        nota: 5,
+        snapshot.forEach((doc) => {
 
-        comentario: "Excelente conteúdo sobre a história do Karatê. O site está muito bonito.",
+            const dados = doc.data();
 
-        data: "Há 2 horas"
+            todosFeedbacks.push({
 
-    },
+                id: doc.id,
+                nome: dados.nome,
+                comentario: dados.comentario,
+                nota: dados.nota,
+                data: "Agora"
 
-    {
+            });
 
-        nome: "Maria",
+        });
 
-        nota: 4,
+        exibirFeedbacks();
 
-        comentario: "Gostei muito do quiz e da organização do site.",
+    });
 
-        data: "Ontem"
+}
 
-    },
+carregarFeedbacks();
 
-    {
+btnEnviar.addEventListener("click", async () => {
 
-        nome: "Pedro",
+    const nome = nomeInput.value.trim();
+    const comentario = comentarioInput.value.trim();
 
-        nota: 5,
+    if (nome === "") {
+        alert("Digite seu nome.");
+        return;
+    }
 
-        comentario: "Parabéns pelo projeto!",
+    if (notaSelecionada === 0) {
+        alert("Selecione uma nota.");
+        return;
+    }
 
-        data: "3 dias atrás"
+    if (comentario === "") {
+        alert("Digite um comentário.");
+        return;
+    }
+
+    try {
+
+        await addDoc(collection(db, "feedbacks"), {
+
+            nome,
+            comentario,
+            nota: notaSelecionada,
+            createdAt: serverTimestamp()
+
+        });
+
+        nomeInput.value = "";
+        comentarioInput.value = "";
+        notaSelecionada = 0;
+        atualizarEstrelas();
+
+        alert("Obrigado pelo seu feedback!");
+
+    } catch (erro) {
+
+        console.error(erro);
+        alert("Erro ao enviar o feedback.");
 
     }
 
-];
+});
 
-exibirFeedbacks();
+
 
 // ==============================
 // BOTÃO VER MAIS
