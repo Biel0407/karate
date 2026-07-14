@@ -29,19 +29,51 @@ body {
 
 .navbar {
     padding: 0.8rem 0;
+    transition: all 0.3s ease;
 }
 
 .navbar-brand {
     font-size: 1.4rem;
     font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.navbar-nav {
+    align-items: center;
 }
 
 .nav-link {
-    transition: color 0.3s ease;
+    position: relative;
+    margin: 0 5px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* Linha animada embaixo do link */
+.nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 2px;
+    width: 0%;
+    height: 2px;
+    background: #dc3545;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
 }
 
 .nav-link:hover {
     color: #dc3545 !important;
+}
+
+/* Dropdown */
+.dropdown-menu {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
 }
 
 /* ==========================================
@@ -778,149 +810,371 @@ figcaption {
     transition:.3s;
 
 }
-/* ===========================================
+/* ==========================================
    MODO ESCURO
-=========================================== */
+========================================== */
 
-body.dark-mode{
-    background:#121212;
-    color:#f5f5f5;
-    transition:.4s;
+body {
+    transition: background 0.4s ease, color 0.4s ease;
 }
 
-body{
-    transition:.4s;
+body.dark-mode {
+    background: #121212;
+    color: #f5f5f5;
 }
 
-/* Navbar */
+/* ==========================
+   NAVBAR
+========================== */
 
-body.dark-mode .navbar{
-    background:#000 !important;
+body.dark-mode .navbar {
+    background: #111 !important;
 }
 
-/* Seções */
-
-body.dark-mode section{
-    background:#121212;
-    color:white;
+body.dark-mode .navbar-brand {
+    color: #fff !important;
 }
 
-/* Cards */
+body.dark-mode .nav-link {
+    color: #fff !important;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #dc3545 !important;
+}
+
+body.dark-mode .dropdown-menu {
+    background: #1b1b1b;
+    border: 1px solid #333;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .5);
+}
+
+body.dark-mode .dropdown-item {
+    color: #fff;
+}
+
+body.dark-mode .dropdown-item:hover {
+    background: #dc3545;
+    color: #fff;
+}
+
+/* Botão do tema */
+
+body.dark-mode #toggleTema {
+    color: #fff;
+    border-color: #fff;
+}
+
+body.dark-mode #toggleTema:hover {
+    background: #fff;
+    color: #111;
+}
+
+/* ==========================
+   SEÇÕES
+========================== */
+
+body.dark-mode section {
+    background: #121212;
+    color: #fff;
+}
+
+/* ==========================
+   CARDS
+========================== */
 
 body.dark-mode .card,
 body.dark-mode .quiz-container,
-body.dark-mode .feedback-card{
-    background:#1f1f1f;
-    color:white;
-    border:1px solid #333;
+body.dark-mode .feedback-card {
+    background: #1f1f1f;
+    color: #fff;
+    border: 1px solid #333;
 }
 
-/* Inputs */
+/* ==========================
+   FORMULÁRIOS
+========================== */
 
 body.dark-mode input,
 body.dark-mode textarea,
-body.dark-mode select{
-
-    background:#2a2a2a;
-    color:white;
-    border:1px solid #555;
-
+body.dark-mode select {
+    background: #2a2a2a;
+    color: #fff;
+    border: 1px solid #555;
 }
 
 body.dark-mode input::placeholder,
-body.dark-mode textarea::placeholder{
-
-    color:#bbbbbb;
-
+body.dark-mode textarea::placeholder {
+    color: #bbbbbb;
 }
 
-/* Botões */
+/* ==========================
+   BOTÕES
+========================== */
 
-body.dark-mode .btn-outline-dark{
-
-    color:white;
-    border-color:white;
-
+body.dark-mode .btn-outline-dark {
+    color: #fff;
+    border-color: #fff;
 }
 
-body.dark-mode .btn-outline-dark:hover{
-
-    background:white;
-    color:black;
-
+body.dark-mode .btn-outline-dark:hover {
+    background: #fff;
+    color: #111;
 }
 
-/* Títulos */
+/* ==========================
+   TÍTULOS E TEXTOS
+========================== */
 
 body.dark-mode h1,
 body.dark-mode h2,
 body.dark-mode h3,
 body.dark-mode h4,
 body.dark-mode h5,
+body.dark-mode h6,
 body.dark-mode p,
-body.dark-mode li{
+body.dark-mode li,
+body.dark-mode span,
+body.dark-mode label {
+    color: #fff;
+}
+
+/* ==========================
+   FOOTER
+========================== */
+
+body.dark-mode footer {
+    background: #000;
+    color: #fff;
+}
+
+/* ==========================
+   LINKS DO CONTEÚDO
+========================== */
+
+body.dark-mode section a {
+    color: #ff6b6b;
+}
+
+body.dark-mode section a:hover {
+    color: #ff9d9d;
+}
+body.dark-mode .feedback-card{
+
+    background:#1e1e1e;
+
+    border:1px solid #333;
+
+}
+
+body.dark-mode .feedback-comentario{
+
+    color:#ddd;
+
+}
+
+body.dark-mode .feedback-data{
+
+    color:#aaa;
+
+}
+/* ==========================================
+   FEEDBACKS
+========================================== */
+
+.feedback-card{
+
+    display:flex;
+    gap:18px;
+
+    padding:20px;
+
+    margin-bottom:18px;
+
+    border-radius:18px;
+
+    background:#fff;
+
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.feedback-card:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 28px rgba(0,0,0,.15);
+
+}
+
+.feedback-avatar{
+
+    width:60px;
+    height:60px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:26px;
+
+    font-weight:bold;
 
     color:white;
 
-}
-
-/* Footer */
-
-body.dark-mode footer{
-
-    background:#000;
-    color:white;
+    flex-shrink:0;
 
 }
 
-/* Links */
+.feedback-conteudo{
 
-/* Navbar no modo escuro */
-
-body.dark-mode .navbar{
-
-    background:#111 !important;
+    flex:1;
 
 }
 
-body.dark-mode .navbar .nav-link{
+.feedback-cabecalho{
 
-    color:#fff !important;
+    display:flex;
 
-}
+    justify-content:space-between;
 
-body.dark-mode .navbar .navbar-brand{
+    align-items:flex-start;
 
-    color:#fff !important;
-
-}
-
-body.dark-mode .navbar .nav-link:hover{
-
-    color:#dc3545 !important;
+    margin-bottom:8px;
 
 }
 
-body.dark-mode .dropdown-menu{
+.feedback-nome{
 
-    background:#1f1f1f;
+    font-size:18px;
 
-}
-
-body.dark-mode .dropdown-item{
-
-    color:white;
+    font-weight:bold;
 
 }
 
-body.dark-mode .dropdown-item:hover{
+.feedback-data{
+
+    color:#777;
+
+    font-size:13px;
+
+}
+
+.feedback-estrelas{
+
+    color:#ffc107;
+
+    font-size:20px;
+
+}
+
+.feedback-comentario{
+
+    line-height:1.6;
+
+    color:#555;
+
+}
+/* ==========================================
+   RESUMO DAS AVALIAÇÕES
+========================================== */
+
+.resumo-avaliacoes{
+
+    display:flex;
+
+    gap:40px;
+
+    align-items:center;
+
+    margin-bottom:35px;
+
+    flex-wrap:wrap;
+
+}
+
+.nota-principal{
+
+    text-align:center;
+
+    min-width:180px;
+
+}
+
+.nota-principal h1{
+
+    font-size:64px;
+
+    margin:0;
+
+    color:#dc3545;
+
+}
+
+#estrelasMedia{
+
+    color:#ffc107;
+
+    font-size:30px;
+
+    margin:8px 0;
+
+}
+
+#totalAvaliacoes{
+
+    color:#666;
+
+}
+
+.graficoNotas{
+
+    flex:1;
+
+}
+
+.linha-nota{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin:8px 0;
+
+}
+
+.barra{
+
+    flex:1;
+
+    height:10px;
+
+    background:#e5e5e5;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+.barra div{
+
+    height:100%;
+
+    width:0;
 
     background:#dc3545;
-    color:white;
 
-}
-body.dark-mode a:hover{
+    transition:.5s;
 
-    color:#ff8888;
+    border-radius:20px;
 
 }

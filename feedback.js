@@ -7,8 +7,6 @@ import {
     query,
     orderBy,
     onSnapshot,
-    getDocs,
-    limit
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 // ==============================
 // VARIÁVEIS
@@ -165,49 +163,48 @@ function exibirFeedbacks() {
 
         card.innerHTML = `
 
-            <div
-                class="avatar"
-                style="background:${corAvatar(item.nome)}">
+        <div class="feedback-avatar"
+            style="background:${corAvatar(item.nome)}">
 
-                ${inicial}
+            ${inicial}
 
-            </div>
+        </div>
 
-            <div class="feedback-info">
+        <div class="feedback-conteudo">
 
-                <div class="feedback-topo">
+            <div class="feedback-cabecalho">
 
-                    <div>
+                <div>
 
-                        <div class="feedback-nome">
+                    <div class="feedback-nome">
 
-                            ${item.nome}
-
-                        </div>
-
-                        <div class="feedback-data">
-
-                            ${item.data}
-
-                        </div>
+                        ${item.nome}
 
                     </div>
 
-                    <div class="feedback-estrelas">
+                    <div class="feedback-data">
 
-                        ${gerarEstrelas(item.nota)}
+                        ${item.data}
 
                     </div>
 
                 </div>
 
-                <div class="feedback-texto">
+                <div class="feedback-estrelas">
 
-                    ${item.comentario}
+                    ${gerarEstrelas(item.nota)}
 
                 </div>
 
             </div>
+
+            <div class="feedback-comentario">
+
+                ${item.comentario}
+
+            </div>
+
+        </div>
 
         `;
 
@@ -238,7 +235,56 @@ function exibirFeedbacks() {
     }
 
 }
-async function carregarFeedbacks() {
+
+// ==============================
+// TEMPO RELATIVO
+// ==============================
+
+function tempoRelativo(timestamp) {
+
+    if (!timestamp) return "Agora";
+
+    const agora = new Date();
+    const data = timestamp.toDate();
+
+    const diff = Math.floor((agora - data) / 1000);
+
+    if (diff < 60)
+        return "Agora";
+
+    if (diff < 3600) {
+
+        const minutos = Math.floor(diff / 60);
+
+        return minutos === 1
+            ? "Há 1 minuto"
+            : `Há ${minutos} minutos`;
+
+    }
+
+    if (diff < 86400) {
+
+        const horas = Math.floor(diff / 3600);
+
+        return horas === 1
+            ? "Há 1 hora"
+            : `Há ${horas} horas`;
+
+    }
+
+    if (diff < 172800)
+        return "Ontem";
+
+    const dias = Math.floor(diff / 86400);
+
+    return `Há ${dias} dias`;
+
+}
+// ==============================
+// CARREGA FEEDBACKS DO FIRESTORE
+// ==============================
+
+function carregarFeedbacks() {
 
     const q = query(
         collection(db, "feedbacks"),
@@ -259,12 +305,13 @@ async function carregarFeedbacks() {
                 nome: dados.nome,
                 comentario: dados.comentario,
                 nota: dados.nota,
-                data: "Agora"
+                data: tempoRelativo(dados.createdAt)
 
             });
 
         });
 
+        atualizarMedia();
         exibirFeedbacks();
 
     });
@@ -272,55 +319,149 @@ async function carregarFeedbacks() {
 }
 
 carregarFeedbacks();
+// ==============================
+// MÉDIA DAS AVALIAÇÕES
+// ==============================
+
+function atualizarMedia() {
+
+    if (todosFeedbacks.length === 0) {
+
+        mediaNota.textContent = "0,0";
+        estrelasMedia.innerHTML = "☆☆☆☆☆";
+        totalAvaliacoes.textContent = "Nenhuma avaliação";
+
+        return;
+
+    }
+
+
+    const soma = todosFeedbacks.reduce((total, item) => total + item.nota, 0);
+
+    const media = soma / todosFeedbacks.length;
+
+    const contagem = {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0
+    };
+
+    todosFeedbacks.forEach(item => {
+
+        contagem[item.nota]++;
+
+    });
+
+    for (let nota = 1; nota <= 5; nota++) {
+
+        document.getElementById(`qtd${nota}`).textContent =
+            contagem[nota];
+
+        document.getElementById(`barra${nota}`).style.width =
+            `${(contagem[nota] / todosFeedbacks.length) * 100}%`;
+
+    }
+
+    mediaNota.textContent = media.toFixed(1).replace(".", ",");
+
+    totalAvaliacoes.textContent =
+        `${todosFeedbacks.length} ${todosFeedbacks.length === 1 ? "avaliação" : "avaliações"}`;
+
+    let estrelas = "";
+
+    for (let i = 1; i <= 5; i++) {
+
+        estrelas += i <= Math.round(media)
+            ? "★"
+            : "☆";
+
+    }
+
+    estrelasMedia.innerHTML = estrelas;
+
+}
+
+carregarFeedbacks();
+
+
+
+// ==============================
+// SALVAR FEEDBACK
+// ==============================
+
+async function salvarFeedback(nome, comentario, nota) {
+
+    await addDoc(collection(db, "feedbacks"), {
+
+        nome,
+        comentario,
+        nota,
+        createdAt: serverTimestamp()
+
+    });
+
+}
+// ==============================
+// ENVIAR FEEDBACK
+// ==============================
+
+// ==============================
+// ENVIAR FEEDBACK
+// ==============================
 
 btnEnviar.addEventListener("click", async () => {
 
     const nome = nomeInput.value.trim();
     const comentario = comentarioInput.value.trim();
 
-    if (nome === "") {
+    if (!nome) {
+
         alert("Digite seu nome.");
+        nomeInput.focus();
         return;
+
     }
 
     if (notaSelecionada === 0) {
-        alert("Selecione uma nota.");
+
+        alert("Escolha uma nota.");
         return;
+
     }
 
-    if (comentario === "") {
+    if (!comentario) {
+
         alert("Digite um comentário.");
+        comentarioInput.focus();
         return;
+
     }
 
     try {
 
-        await addDoc(collection(db, "feedbacks"), {
-
+        await salvarFeedback(
             nome,
             comentario,
-            nota: notaSelecionada,
-            createdAt: serverTimestamp()
-
-        });
+            notaSelecionada
+        );
 
         nomeInput.value = "";
         comentarioInput.value = "";
         notaSelecionada = 0;
-        atualizarEstrelas();
 
-        alert("Obrigado pelo seu feedback!");
+        atualizarEstrelas();
 
     } catch (erro) {
 
         console.error(erro);
-        alert("Erro ao enviar o feedback.");
+
+        alert("Erro ao enviar a avaliação.");
 
     }
 
 });
-
-
 
 // ==============================
 // BOTÃO VER MAIS

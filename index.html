@@ -23,11 +23,10 @@
         <div class="container-fluid px-4">
 
             <a class="navbar-brand fw-bold" href="#">
-                Caminho das Mãos Vazias
+                🥋 Caminho das Mãos Vazias
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
-                aria-controls="menuPrincipal" aria-expanded="false" aria-label="Alternar navegação">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
 
                 <span class="navbar-toggler-icon"></span>
 
@@ -35,7 +34,7 @@
 
             <div class="collapse navbar-collapse" id="menuPrincipal">
 
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
 
                     <li class="nav-item">
                         <a class="nav-link" href="#origem">Origem</a>
@@ -45,41 +44,44 @@
                         <a class="nav-link" href="#estilos">Estilos</a>
                     </li>
 
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#karate-brasil">Karatê no Brasil</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#karate-rn">Karatê no RN</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#etica">Ética</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#pilares">Três Pilares</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#karate-atualidade">
-                            Karatê na Atualidade
-                        </a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#quiz">Quiz</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#referencias">Referências</a>
-                    </li>
-                    <li class="nav-item">
-                        <button id="toggleTema" class="btn btn-outline-light rounded-circle ms-3" title="Alternar tema">
-                            🌙
-                        </button>
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+
+                            Mais
+
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-dark">
+
+                            <li><a class="dropdown-item" href="#karate-brasil">Karatê no Brasil</a></li>
+
+                            <li><a class="dropdown-item" href="#karate-rn">Karatê no RN</a></li>
+
+                            <li><a class="dropdown-item" href="#etica">Ética</a></li>
+
+                            <li><a class="dropdown-item" href="#pilares">Três Pilares</a></li>
+
+                            <li><a class="dropdown-item" href="#karate-atualidade">Atualidade</a></li>
+
+                            <li><a class="dropdown-item" href="#referencias">Referências</a></li>
+
+                        </ul>
+
                     </li>
 
                 </ul>
+
+                <button id="toggleTema" class="btn btn-outline-light rounded-circle ms-lg-3 mt-3 mt-lg-0"
+                    title="Alternar tema">
+
+                    🌙
+
+                </button>
 
             </div>
 
@@ -1624,33 +1626,83 @@
                     Sua opinião é muito importante! Deixe uma avaliação sobre o site e ajude outras pessoas.
                 </p>
 
-                <!-- ESTATÍSTICAS -->
+                <!-- RESUMO DAS AVALIAÇÕES -->
 
-                <div class="row justify-content-center mb-5">
+                <div class="resumo-avaliacoes">
 
-                    <div class="col-lg-6">
+                    <div class="nota-principal">
 
-                        <div class="card shadow-sm border-0">
+                        <h1 id="mediaNota">0,0</h1>
 
-                            <div class="card-body text-center">
+                        <div id="estrelasMedia">
+                            ☆☆☆☆☆
+                        </div>
 
-                                <h1 id="mediaNota" class="display-3 fw-bold text-danger">
-                                    0.0
-                                </h1>
+                        <p id="totalAvaliacoes">
+                            Nenhuma avaliação
+                        </p>
 
-                                <div id="estrelasMedia" class="fs-3 mb-2">
-                                    ☆☆☆☆☆
-                                </div>
+                    </div>
 
-                                <p class="text-muted mb-0">
-                                    Baseado em
-                                    <strong id="totalAvaliacoes">
-                                        0
-                                    </strong>
-                                    avaliações
-                                </p>
+                    <div class="graficoNotas">
 
+                        <div class="linha-nota">
+
+                            <span>★★★★★</span>
+
+                            <div class="barra">
+                                <div id="barra5"></div>
                             </div>
+
+                            <span id="qtd5">0</span>
+
+                        </div>
+
+                        <div class="linha-nota">
+
+                            <span>★★★★☆</span>
+
+                            <div class="barra">
+                                <div id="barra4"></div>
+                            </div>
+
+                            <span id="qtd4">0</span>
+
+                        </div>
+
+                        <div class="linha-nota">
+
+                            <span>★★★☆☆</span>
+
+                            <div class="barra">
+                                <div id="barra3"></div>
+                            </div>
+
+                            <span id="qtd3">0</span>
+
+                        </div>
+
+                        <div class="linha-nota">
+
+                            <span>★★☆☆☆</span>
+
+                            <div class="barra">
+                                <div id="barra2"></div>
+                            </div>
+
+                            <span id="qtd2">0</span>
+
+                        </div>
+
+                        <div class="linha-nota">
+
+                            <span>★☆☆☆☆</span>
+
+                            <div class="barra">
+                                <div id="barra1"></div>
+                            </div>
+
+                            <span id="qtd1">0</span>
 
                         </div>
 
@@ -1660,7 +1712,7 @@
 
                 <!-- FORMULÁRIO -->
 
-                <div class="row justify-content-center">
+                <div class="row justify-content-center mt-5">
 
                     <div class="col-lg-8">
 
@@ -1737,14 +1789,10 @@
                     <div class="col-lg-8">
 
                         <h4 class="mb-4">
-
                             Comentários recentes
-
                         </h4>
 
-                        <div id="listaFeedbacks">
-
-                        </div>
+                        <div id="listaFeedbacks"></div>
 
                         <div class="text-center mt-4">
 
