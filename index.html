@@ -6,15 +6,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Caminho das Mãos Vazias: história, filosofia, estilos, linha do tempo e experiências interativas sobre o Karatê-Do.">
+        content="Caminho das Mãos Vazias: história, filosofia, estilos, estudo rápido e experiências interativas sobre o Karatê-Do.">
     <meta name="theme-color" content="#111111">
+
+    <meta name="keywords"
+        content="karatê, karatê-do, história do karatê, filosofia do karatê, estilos de karatê, kihon, kata, kumite">
+    <meta name="author" content="João Gabriel Costa Sobrinho de Almeida">
+
+    <link rel="canonical" href="./">
+    <link rel="icon" type="image/png" href="imagens/cumprimento.png">
+    <link rel="apple-touch-icon" href="imagens/cumprimento.png">
 
     <meta property="og:title" content="Caminho das Mãos Vazias">
     <meta property="og:description"
-        content="Um site completo sobre a história, a filosofia e a evolução do karatê com quiz, vídeos e avaliações.">
+        content="Um site completo sobre a história, a filosofia e a evolução do karatê com quiz, vídeos, avaliações e estudo rápido.">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="imagens/banner.png">
+    <meta property="og:image:alt" content="Banner do site Caminho das Mãos Vazias sobre Karatê-Do">
+    <meta property="og:locale" content="pt_BR">
 
-    <title>Caminho das Mãos Vazias</title>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Caminho das Mãos Vazias">
+    <meta name="twitter:description"
+        content="História, filosofia, estilos, estudo rápido e recursos interativos sobre Karatê-Do.">
+    <meta name="twitter:image" content="imagens/banner.png">
+
+    <title>Caminho das Mãos Vazias | História e Filosofia do Karatê-Do</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">
 
@@ -2328,6 +2345,48 @@
 
             </section>
 
+            <section id="banco-questoes" class="container py-5">
+
+                <div class="section-intro text-center">
+
+                    <p class="section-eyebrow">Material para professores</p>
+
+                    <h2>Banco de questões</h2>
+
+                    <p class="section-subtitle">
+                        Perguntas prontas para revisão, avaliação ou discussão em aula.
+                        Apenas as principais aparecem por padrão; o restante pode ser expandido.
+                    </p>
+
+                </div>
+
+                <div class="bank-shell">
+
+                    <div class="bank-meta">
+
+                        <span class="resource-chip">30 questões</span>
+
+                        <p>
+                            Um banco compacto para apoiar professores na preparação de atividades
+                            sobre história, filosofia e fundamentos do karatê.
+                        </p>
+
+                    </div>
+
+                    <div id="bancoQuestoesLista" class="bank-grid"></div>
+
+                    <div class="text-center mt-4">
+
+                        <button id="btnVerMaisBanco" class="btn btn-outline-danger">
+                            Ver mais questões
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
             <section id="quiz" class="container py-5">
 
                 <h2 class="text-center mb-4">
@@ -2779,6 +2838,7 @@
     <script type="module" src="firebase.js"></script>
     <script type="module" src="feedback.js"></script>
     <script src="recursos.js"></script>
+    <script src="banco_questoes.js"></script>
     <script src="compartilhar.js"></script>
 
     <script src="tema.js"></script>
