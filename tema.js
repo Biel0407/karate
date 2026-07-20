@@ -1,26 +1,32 @@
 const botaoTema = document.getElementById("toggleTema");
 
-// Verifica se já existe preferência salva
-if (localStorage.getItem("tema") === "dark") {
+if (botaoTema) {
 
-    document.body.classList.add("dark-mode");
+    // Verifica se já existe preferência salva
+    if (localStorage.getItem("tema") === "dark") {
 
-    botaoTema.innerHTML = "☀️ Modo Claro";
-
-}
-
-botaoTema.addEventListener("click", () => {
-
-    document.body.classList.toggle("dark-mode");
-
-    if (document.body.classList.contains("dark-mode")) {
+        document.body.classList.add("dark-mode");
 
         botaoTema.textContent = "☀️";
 
-    } else {
-
-        botaoTema.textContent = "🌙";
-
     }
 
-});
+    botaoTema.addEventListener("click", () => {
+
+        document.body.classList.toggle("dark-mode");
+
+        if (document.body.classList.contains("dark-mode")) {
+
+            botaoTema.textContent = "☀️";
+            localStorage.setItem("tema", "dark");
+
+        } else {
+
+            botaoTema.textContent = "🌙";
+            localStorage.setItem("tema", "light");
+
+        }
+
+    });
+
+}

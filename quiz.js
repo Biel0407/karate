@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const proxima = document.getElementById("proxima");
     const contador = document.getElementById("contador");
     const barra = document.getElementById("barra");
-    const feedback = document.getElementById("feedback");
+    const feedback = document.getElementById("quizFeedback");
 
     // ==============================
     // CARREGA PERGUNTA
@@ -312,53 +312,60 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
+        const nivel = pontos >= 8 ? "Excelente" : pontos >= 6 ? "Bom" : pontos >= 4 ? "Em evolução" : "Inicial";
+
         document.querySelector(".quiz-container").innerHTML = `
 
-<div class="text-center">
+<div class="quiz-resultado text-center">
 
-    <h1 style="
-        font-size:110px;
-        animation:pular 1s infinite;
-    ">
-        ${medalha}
-    </h1>
+    <div class="quiz-medalha">${medalha}</div>
 
-    <h2 class="mb-4">
-        Quiz Finalizado!
-    </h2>
+    <p class="quiz-status">Quiz finalizado</p>
 
-    <h3>
-        Você acertou
-    </h3>
+    <h2 class="quiz-titulo">Você completou a jornada</h2>
 
-    <h1 class="display-4 text-danger fw-bold">
-        ${pontos} / ${perguntas.length}
-    </h1>
+    <div class="quiz-metricas">
 
-    <h4 class="mb-4">
-        Aproveitamento de ${porcentagem}%
-    </h4>
+        <div class="quiz-metrica">
+            <span class="quiz-metrica-label">Acertos</span>
+            <strong>${pontos}/${perguntas.length}</strong>
+        </div>
 
-    <h2
-        style="
-            color:${corFaixa};
-            margin-top:25px;
-            font-weight:bold;
-        ">
+        <div class="quiz-metrica">
+            <span class="quiz-metrica-label">Aproveitamento</span>
+            <strong>${porcentagem}%</strong>
+        </div>
+
+        <div class="quiz-metrica">
+            <span class="quiz-metrica-label">Nível</span>
+            <strong>${nivel}</strong>
+        </div>
+
+    </div>
+
+    <div class="quiz-faixa" style="border-color:${corFaixa}; color:${corFaixa};">
         ${faixa}
-    </h2>
+    </div>
 
-    <p class="lead mt-3">
+    <p class="lead mt-3 quiz-mensagem">
         ${mensagem}
     </p>
 
-    <button
-        class="btn btn-danger btn-lg mt-4"
-        onclick="location.reload()">
+    <div class="quiz-acoes">
 
-        🔄 Jogar novamente
+        <a class="btn btn-outline-danger btn-lg" href="#recursos-karate">
+            Rever recursos
+        </a>
 
-    </button>
+        <button
+            class="btn btn-danger btn-lg"
+            onclick="location.reload()">
+
+            🔄 Jogar novamente
+
+        </button>
+
+    </div>
 
 </div>
 
